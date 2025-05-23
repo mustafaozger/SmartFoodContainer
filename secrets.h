@@ -1,0 +1,3 @@
+#define SECRET_DEVICE_KEY "fYcrfQeFssOXMVlWVvA1QwKyY"
+#define SECRET_OPTIONAL_PASS "12345789++"
+#define SECRET_SSID "ozger"
