@@ -1,58 +1,99 @@
-:Author: jh2334
-:Email:
-:Date: 15/05/2025
-:Revision: version#
-:License: Public Domain
+# 🌟 Smart Jar IoT Project
 
-= Project: {Project}
+This project is a smart IoT-enabled jar using an **ESP32** development board. It automatically monitors internal humidity, temperature, and ambient light, controls a servo-based lid mechanism, and integrates with the **Arduino IoT Cloud** for real-time control and scheduling.
 
-Describe your project
+---
 
-== Step 1: Installation
-Please describe the steps to install this project.
+## ⚖️ Features
 
-For example:
+* ✔️ DHT11 sensor for **temperature & humidity** monitoring
+* ✔️ LDR for **light level** detection
+* ✔️ HC-SR04 ultrasonic sensor to detect approach (for lid control)
+* ✔️ SG90 Servo motor for automated **jar lid opening/closing**
+* ✔️ RGB LED for **visual feedback** based on humidity
+* ✔️ OLED display for local sensor readouts
+* ✔️ Arduino IoT Cloud integration for:
 
-1. Open this file
-2. Edit as you like
-3. Release to the World!
+  * Live sensor data dashboard
+  * Manual servo control switch (`servoEnable`)
+  * Scheduled servo disable window via `scheduleActive`
 
-== Step 2: Assemble the circuit
+---
 
-Assemble the circuit following the diagram layout.png attached to the sketch
+## 🛠️ Hardware Components
 
-== Step 3: Load the code
+| Component          | Quantity  |
+| ------------------ | --------- |
+| ESP32 DevKit V1    | 1         |
+| DHT11 Sensor       | 1         |
+| LDR                | 1         |
+| HC-SR04 Sensor     | 1         |
+| SG90 Servo Motor   | 1         |
+| SH1106 OLED        | 1         |
+| RGB LED            | 1         |
+| Resistors          | As needed |
+| Breadboard + Wires | -         |
 
-Upload the code contained in this sketch on to your board
+---
 
-=== Folder structure
+## 💡 How It Works
 
-....
- sketch123                => Arduino sketch folder
-  ├── sketch123.ino       => main Arduino file
-  ├── schematics.png      => (optional) an image of the required schematics
-  ├── layout.png          => (optional) an image of the layout
-  └── ReadMe.adoc         => this file
-....
+* If someone approaches the jar (distance < 10 cm), the servo opens the lid
+* During scheduled hours, the lid does not open even if someone is near
+* Humidity level controls RGB LED:
 
-=== License
-This project is released under a {License} License.
+  * Red: dry (<30%)
+  * Yellow: normal (30%-60%)
+  * Blue: humid (>60%)
+* OLED shows current distance, temperature, humidity, and light level
 
-=== Contributing
-To contribute to this project please contact: 
+---
 
-=== BOM
-Add the bill of the materials you need for this project.
+## ☁️ Arduino Cloud Variables
 
-|===
-| ID | Part name      | Part number | Quantity
-| R1 | 10k Resistor   | 1234-abcd   | 10       
-| L1 | Red LED        | 2345-asdf   | 5        
-| A1 | Arduino Zero   | ABX00066    | 1        
-|===
+| Variable         | Type            | Purpose                                 |
+| ---------------- | --------------- | --------------------------------------- |
+| `distance`       | `float`         | Ultrasonic sensor distance (cm)         |
+| `temperature`    | `float`         | From DHT11                              |
+| `humidity`       | `float`         | From DHT11                              |
+| `lightLevel`     | `float`         | From LDR                                |
+| `servoEnable`    | `boolean`       | Manual override to enable/disable servo |
+| `scheduleActive` | `CloudSchedule` | Auto-disable servo on schedule          |
 
+---
 
-=== Help
-This document is written in the _AsciiDoc_ format, a markup language to describe documents. 
-If you need help you can search the http://www.methods.co.nz/asciidoc[AsciiDoc homepage]
-or consult the http://powerman.name/doc/asciidoc[AsciiDoc cheatsheet]
+## 🔧 Setup Instructions
+
+1. Clone this repo:
+
+   ```bash
+   git clone https://github.com/yourusername/smart-jar-iot.git
+   ```
+2. Open the `.ino` sketch in Arduino IDE
+3. Install required libraries:
+
+   * `ESP32Servo`
+   * `DHT sensor library by Adafruit`
+   * `U8g2`
+   * `ArduinoIoTCloud`
+4. Update WiFi credentials and device key in `arduino_secrets.h`
+5. Upload to your ESP32 board
+6. Link variables in your Arduino IoT Cloud Thing and configure the Dashboard
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License. Feel free to modify and improve it.
+
+---
+
+## 🚀 Author
+
+**Akın Buzkuş** – Final Year Project – Akdeniz University
+
+---
+
+## 📅 Status
+
+Fully working and integrated with Arduino IoT Cloud as of May 2025
